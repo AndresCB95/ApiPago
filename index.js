@@ -28,7 +28,7 @@ app.post(pathName,
         console.log("Recibimos peticion")
         console.log(req.body)
         let pagos = pagosService.pagosSetExport(req.body)
-        res.send({"mensaje":"Vuelo Guardado","pagos":pagos})
+        res.send({"mensaje":"pago Guardado","pagos":pagos})
     }
 )
 
@@ -38,7 +38,7 @@ app.delete(pathName,
         let id = req.query.id
         console.log(id)
         let pagos = pagosService.pagosDeleteExport(id)
-        res.send({"mensaje":"Vuelo Guardado","pagos":pagos})
+        res.send({"mensaje":"pago Guardado","pagos":pagos})
     }
 )
 
@@ -61,6 +61,6 @@ app.patch(pathName,
 
 app.listen(port, 
     ()=>{
-        console.log("Subio el app vuelo en el puerto "+port)
+        console.log("Subio el app pago en el puerto "+port)
     }
 )
