@@ -1,5 +1,5 @@
 let pagos = require("./pagos.json")
-
+let request = require("axios")
 
 const pagosGet = () =>{
 
@@ -8,6 +8,14 @@ const pagosGet = () =>{
 }
 
 const pagosSet = (pago) =>{
+    if(pago.estado==="Aprobado"){
+        const reserva= request.patch(
+            "localhost:8084/reservas/estado",
+            {"idreserva":pago.idreserva,"estadoReserva":"Confirmado"}
+        ).then(
+            console.log("RESERVA CONFIRMADA")
+        )
+    }
     pagos.push(pago)
     return pagos
 
