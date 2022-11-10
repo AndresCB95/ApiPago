@@ -1,13 +1,24 @@
-let pagos = require("./pagos.json")
 let request = require("axios")
+const getMongo = require("./mongodb.js")
 
-const pagosGet = () =>{
-
-    return pagos
-
+async function getConexiones() {
+    const nameDb = "aerolineaG1y2"
+    const client = await getMongo.getClientnExport(nameDb)
+    const collection = await getMongo.getCollectionExport(client, nameDb)
+    return { collection, client }
 }
 
-const pagosSet = (pago) =>{
+
+const pagosGet = async (idclient) =>{
+    const {collection, client } = await getConexiones()
+    const pagos = collection.find({"idclient":idclient})
+    const pagosList = await pagos.toArray()
+    await getMongo.closeClientExport(client)
+    return pagosList
+}
+
+const pagosSet = async (pago) =>{
+    const {collection, client } = await getConexiones()
     if(pago.estado==="Aprobado"){
         const reserva= request.patch(
             "localhost:8084/reservas/estado",
@@ -16,9 +27,13 @@ const pagosSet = (pago) =>{
             console.log("RESERVA CONFIRMADA")
         )
     }
-    pagos.push(pago)
-    return pagos
-
+    await collection.insertOne(pago).then(
+        (resp)=>{
+            console.log("PAGO REGISTRADO")
+        }
+    )
+    await getMongo.closeClientExport(client)
+    return pago
 }
 
 const pagosDelete = (id) =>{
