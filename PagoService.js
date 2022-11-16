@@ -21,10 +21,17 @@ const pagosSet = async (pago) =>{
     const {collection, client } = await getConexiones()
     if(pago.estado==="Aprobado"){
         const reserva= request.patch(
-            "localhost:8084/reservas/estado",
+            "http://localhost:8084/reservas/reservas/estado",
             {"idreserva":pago.idreserva,"estadoReserva":"Confirmado"}
         ).then(
-            console.log("RESERVA CONFIRMADA")
+            (rep)=>{
+                console.log("RESERVA CONFIRMADA")
+            }
+        ).catch(
+            (error)=>{
+                console.log("ERROR EN LA RESERVA DE ESTADO")
+                console.log(error)
+            }
         )
     }
     await collection.insertOne(pago).then(

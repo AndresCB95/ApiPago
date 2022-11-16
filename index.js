@@ -11,7 +11,7 @@ const port = 8083
 app.use(cors())
 app.use(body_parse.json())
 
-const pathName="pagos/"
+const pathName="/pagos"
 
 
 app.get(pathName,
