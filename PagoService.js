@@ -21,7 +21,7 @@ const pagosSet = async (pago) =>{
     const {collection, client } = await getConexiones()
     if(pago.estado==="Aprobado"){
         const reserva= request.patch(
-            "http://localhost:8084/reservas/reservas/estado",
+            "http://192.168.1.7:8084/reservas/reservas/estado",
             {"idreserva":pago.idreserva,"estadoReserva":"Confirmado"}
         ).then(
             (rep)=>{
